@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+</head>
+<body>
+    Time left: 
+    <div id="ttime">{{end_time}}</div>
+    <p>Score: <span id="score">0</span></p>
+    <p><b><span id="bold"></span></b><span id="light">{{light}}</span></p><br>
+
+    <form name="keyNo" id="keyNo" action="{{ url_for('game', sec=end_time) }}" method="post">
+        <input type="hidden" name="keys" value="" id="keys" />
+        <input type="hidden" name="ss" value="" id="ss" />
+    </form>
+    <script type="text/javascript">
+        
+        var keylog= {}
+        window.addEventListener("keyup", function(e) {
+            if( keylog[e.code] == undefined ){
+                keylog[e.code] = 1
+            } else {
+                keylog[e.code]++
+            };
+
+            document.getElementById("score").innerHTML = parseInt(document.getElementById("score").innerHTML) + 1;
+            score = parseInt(document.getElementById("score").innerHTML);
+            const words = `{{light | safe}}`;
+            document.getElementById('bold').innerHTML = words.slice(0, score);
+            document.getElementById('light').innerHTML = words.slice(score);
+            if (score == words.length) {
+                document.getElementById('keys').value = JSON.stringify(keylog);
+                document.getElementById('ss').value = document.getElementById('score').innerHTML;
+                document.getElementById("keyNo").submit();
+            }
+        });
+        var endTime = new Date().getTime() / 1000;
+        endTime = Math.floor(endTime);
+        endTime += {{ end_time | safe }};
+
+        var x = setInterval(function() {
+            var now = new Date().getTime() / 1000;
+            now = Math.floor(now);
+            document.getElementById('ttime').innerHTML =   endTime - now;
+            if (document.getElementById('ttime').innerHTML <= 0.0) {
+                document.getElementById('keys').value = JSON.stringify(keylog);
+                document.getElementById('ss').value = document.getElementById('score').innerHTML;
+                document.getElementById("keyNo").submit();
+            }
+        }, 1000);
+        
+    </script>
+
+    
+</body>
+</html>
