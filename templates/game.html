@@ -8,11 +8,12 @@
     Time left: 
     <div id="ttime">{{end_time}}</div>
     <p>Score: <span id="score">0</span></p>
-    <p><b><span id="bold"></span></b><span id="light">{{light}}</span></p><br>
+    <p><span id="bold"></span><span id="light">{{light}}</span></p><br>
 
     <form name="keyNo" id="keyNo" action="{{ url_for('game', sec=end_time) }}" method="post">
         <input type="hidden" name="keys" value="" id="keys" />
         <input type="hidden" name="ss" value="" id="ss" />
+        <input type="hidden" name="mode" value="" id="mode" />
     </form>
     <script type="text/javascript">
         
@@ -45,6 +46,7 @@
             document.getElementById('ttime').innerHTML =   endTime - now;
             if (document.getElementById('ttime').innerHTML <= 0.0) {
                 document.getElementById('keys').value = JSON.stringify(keylog);
+                document.getElementById('mode').value = {{end_time | safe}};
                 document.getElementById('ss').value = document.getElementById('score').innerHTML;
                 document.getElementById("keyNo").submit();
             }

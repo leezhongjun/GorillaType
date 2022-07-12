@@ -35,13 +35,18 @@ def get_copypasta():
 
 """) if x and x[0] != '~']
     wordlist = [x.split(')')[1] if ')' in x else x for x in wordlist]
+    wordlist = [x.strip() for x in wordlist]
+    wordlist = [x for x in wordlist if len(x) > 600]
     return wordlist, len(wordlist)
 
 
 
 
 wordlist, wordlist_len = get_copypasta()
-stats = {'highscore':0, 'curr_score':0}
+# print(wordlist_len,flush=True) # 36 pastas
+modes = ['10 sec', '30 sec', '45 sec']
+hs = {x:0 for x in modes}
+stats = {'curr_score':0, 'curr_mode':modes[0]}
 wordlist_choice = 0
 end_time = 0
 
@@ -49,26 +54,27 @@ end_time = 0
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global stats, wordlist_choice
+    global stats, wordlist_choice, hs
     
     wordlist_choice = random.randint(0,wordlist_len-1)
-    stats['highscore'] = max(stats['highscore'], stats['curr_score'])
+    hs[stats['curr_mode']] = max(hs[stats['curr_mode']], stats['curr_score'])
     if request.method == 'POST':
         keylog = json.loads(request.args.get('data'))
         keylog = [(x, keylog[x]) for x in keylog.keys()]
         keylog = sorted(keylog, key=lambda x: x[1])[::-1]
-        return render_template('greet.html', stats = stats, end = True ,keylog=keylog)
+        return render_template('greet.html', stats = stats, hs=hs,end = True ,keylog=keylog)
     else:
-        return render_template('greet.html', stats = stats, end = False)
+        return render_template('greet.html', stats = stats, hs=hs, end = False)
 
 
-@app.route('/game/<sec>', methods=['GET', 'POST'])
-def game(sec):
+@app.route('/game', methods=['GET', 'POST'])
+def game():
     global stats, wordlist_choice, end_time
     if request.method == 'POST':
         stats['curr_score'] = int(request.form['ss'])
+        stats['curr_mode'] = request.form['mode'] + ' sec'
         return redirect(url_for('index', data = request.form['keys']), code=307) #for post
     else:
-        return render_template('game.html', light=wordlist[wordlist_choice], score = 0, end_time=int(sec))
+        return render_template('game.html', light=wordlist[wordlist_choice], score = 0, end_time=int(request.args['secs']))
 if __name__=='__main__':
     app.run(debug=True)

@@ -7,36 +7,47 @@
 <body>
     <img src={{ url_for('static', filename='gorillaGreet.gif') }}>
     
+
     <p>Play gorillaType!</p>
     {% if end %}
         <p>Game over!</p>
         <table>
-            <tr><th>Key Pressed</th><th>Times Pressed</th></tr>
+            <tr class="header"><th>Key Pressed</th><th>Times Pressed</th></tr>
             {% for key, value in keylog %}
                 <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
             {% endfor %}
         </table>
     {% endif %}
-    <p>Highscore: {{stats['highscore']}}</p>
-    <p>Current score: {{stats['curr_score']}}</p><br>
-    <form method="GET" action="{{ url_for('game', sec=5) }}">
-        <button type="submit" value="5 sec">5 sec</button>
+    <table>
+        <tr class="header"><th>Mode</th><th>Highscore</th></tr>
+        {% for key in hs %}
+            <tr><td>{{ key }}</td><td>{{ hs[key] }}</td></tr>
+        {% endfor %}
+    </table>
+    <p>Current score: {{stats['curr_score']}}</p>
+    <p>Current mode: {{stats['curr_mode']}}</p><br>
+    <form method="GET" id="secform" action="{{ url_for('game', sec=5) }}">
+        <label><input type="radio" id="secs" name="secs" value="10" checked="checked">10 sec</label><br>
+        <label><input type="radio" id="secs" name="secs" value="30">30 sec</label><br>
+        <label><input type="radio" id="secs" name="secs" value="45">45 se</label>c<br>
+        <button type="submit" value="submit">Press enter to start</button>
     </form>
-    <form method="GET" action="{{ url_for('game', sec=10) }}">
-        <button type="submit" value="10 sec">10 sec</button>
-    </form>
-    <form method="GET" action="{{ url_for('game', sec=60) }}">
-        <button type="submit" value="1 min">1 min</button>
-    </form>
-    <form method="GET" action="{{ url_for('game', sec=120) }}">
-        <button type="submit" value="3 min">3 min</button>
-    </form>
-    <form method="GET" action="{{ url_for('game', sec=300) }}">
-        <button type="submit" value="5 min">5 min</button>
-    </form>
-    <form method="GET" action="{{ url_for('game', sec=600) }}">
-        <button type="submit" value="10 min">10 min</button>
-    </form>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        window.addEventListener("keydown", function(e) {
+            if( e.code ==  'Enter'){
+                document.getElementById("secform").submit();
+            } 
+        });
+
+        //collapsible table
+        $('.header').click(function()
+        {
+            $(this).nextUntil('tr.header').slideToggle(300);
+        }); 
+
+
+    </script>
 
     
 </body>

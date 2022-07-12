@@ -1,5 +1,6 @@
 body{
     font-family: "Roboto Mono", monospace;
+    font-size: 150%;
 }
 
 table {
@@ -11,4 +12,14 @@ td, th {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+}
+button{
+    font-family: "Roboto Mono", monospace;
+    font-size: 120%;
+}
+#light{
+    opacity: 0.5;
+}
+#bold{
+    font-weight: bold;
 }
