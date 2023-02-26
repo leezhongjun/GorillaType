@@ -2,6 +2,7 @@
 
 <html>
 <head>
+    <title>GorillaType</title>
     <link rel="stylesheet" href={{url_for('static', filename='styles.css')}}>
 </head>
 <body>
@@ -11,15 +12,15 @@
     <p>Play gorillaType!</p>
     {% if end %}
         <p>Game over!</p>
-        <table>
-            <tr class="header"><th>Key Pressed</th><th>Times Pressed</th></tr>
+        <table class="table1">
+            <tr class="header"><th>Key Pressed (Click to show/hide)</th><th>Times Pressed</th></tr>
             {% for key, value in keylog %}
                 <tr><td>{{ key }}</td><td>{{ value }}</td></tr>
             {% endfor %}
         </table>
     {% endif %}
     <table>
-        <tr class="header"><th>Mode</th><th>Highscore</th></tr>
+        <tr class="header"><th>Mode (Click to show/hide)</th><th>Highscore</th></tr>
         {% for key in hs %}
             <tr><td>{{ key }}</td><td>{{ hs[key] }}</td></tr>
         {% endfor %}
@@ -27,9 +28,9 @@
     <p>Current score: {{stats['curr_score']}}</p>
     <p>Current mode: {{stats['curr_mode']}}</p><br>
     <form method="GET" id="secform" action="{{ url_for('game', sec=5) }}">
-        <label><input type="radio" id="secs" name="secs" value="10" checked="checked">10 sec</label><br>
-        <label><input type="radio" id="secs" name="secs" value="30">30 sec</label><br>
-        <label><input type="radio" id="secs" name="secs" value="45">45 se</label>c<br>
+        <label><input type="radio" id="secs" name="secs" value="10" {% if stats["curr_mode"] == '10 sec' %} checked="checked" {% endif %} >10 sec</label><br>
+        <label><input type="radio" id="secs" name="secs" value="15" {% if stats["curr_mode"] == '15 sec' %} checked="checked" {% endif %}>15 sec</label><br>
+        <label><input type="radio" id="secs" name="secs" value="20" {% if stats["curr_mode"] == '20 sec' %} checked="checked" {% endif %}>20 se</label>c<br>
         <button type="submit" value="submit">Press enter to start</button>
     </form>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
@@ -41,10 +42,13 @@
         });
 
         //collapsible table
-        $('.header').click(function()
-        {
-            $(this).nextUntil('tr.header').slideToggle(300);
-        }); 
+        $(document).ready(function() {
+            $('.table1 td').hide();
+            $('th').click(function() {
+                $(this).parents('table').find('td').toggle();
+            }); 
+            
+        });
 
 
     </script>

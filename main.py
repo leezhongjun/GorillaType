@@ -23,7 +23,14 @@ def get_wordlist():
     wordlist = [x for x in wordlist if x]
     return wordlist, len(wordlist)
 
+def get_potter_wordlist():
+    with open('harry_potter.txt', 'r',encoding='utf-8') as f:
+        wordlist = f.read().splitlines()
+    wordlist = [x for x in wordlist if x]
+    return wordlist, len(wordlist)
+
 def get_copypasta():
+    # get copypasta txt from link in README.md
     with open('copypasta.txt', 'r',encoding='utf-8') as f:
         wordlist = f.read()
     wordlist = [x for x in wordlist.split("""
@@ -42,9 +49,9 @@ def get_copypasta():
 
 
 
-wordlist, wordlist_len = get_copypasta()
-# print(wordlist_len,flush=True) # 36 pastas
-modes = ['10 sec', '30 sec', '45 sec']
+wordlist, wordlist_len = get_potter_wordlist()
+print(wordlist_len,flush=True) # 151 pastas
+modes = ['10 sec', '15 sec', '20 sec']
 hs = {x:0 for x in modes}
 stats = {'curr_score':0, 'curr_mode':modes[0]}
 wordlist_choice = 0
