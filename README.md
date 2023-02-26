@@ -1,10 +1,10 @@
 # GorillaType
 
-Typing and Destressing companion :)
+Typing and destressing website :)
 
 Imagine Typeracer, but now you can spam any key on your keyboard!
 
-get copypasta.txt from [here](https://drive.google.com/file/d/16hbqJoJLnthhPp2Ie2GUTetIel8XIVmO/view?usp=sharing) (NSFW)
+Get copypasta.txt from [here](https://drive.google.com/file/d/16hbqJoJLnthhPp2Ie2GUTetIel8XIVmO/view?usp=sharing) (NSFW) to use copypastas instead
 
 ### To use:
-run main.py
+Run main.py
