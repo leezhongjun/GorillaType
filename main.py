@@ -30,7 +30,7 @@ def get_potter_wordlist():
     return wordlist, len(wordlist)
 
 def get_copypasta():
-    # get copypasta txt from link in README.md
+    # get copypasta txt from https://drive.google.com/file/d/16hbqJoJLnthhPp2Ie2GUTetIel8XIVmO/view?usp=sharing
     with open('copypasta.txt', 'r',encoding='utf-8') as f:
         wordlist = f.read()
     wordlist = [x for x in wordlist.split("""
@@ -45,6 +45,7 @@ def get_copypasta():
     wordlist = [x.strip() for x in wordlist]
     wordlist = [x for x in wordlist if len(x) > 600]
     return wordlist, len(wordlist)
+
 
 
 
